@@ -28,9 +28,9 @@ class StoryCachingService @Inject constructor(
             .filter { it.type == STORY }
             .take(PAGE_SIZE)
             .map { it.toStory() }
-            .sorted()
-            .doOnNext { storyDao.insert(it) }
-            .toList()
+            .toSortedList()
+            // Persist the stories
+            .doOnSuccess { storyDao.insert(*it.toTypedArray()) }
             .toFlowable()
 
         // Will return the disk stories immediately, but also kick off a request to get fresh stories.

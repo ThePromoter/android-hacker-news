@@ -34,7 +34,7 @@ class StoryListAdapter @Inject constructor(context: Context) :
 
     override fun getItemId(position: Int) = getItem(position).id.toLong()
 
-    fun addStories(newItems: List<Story>) {
+    fun setStories(newItems: List<Story>) {
         val diff = DiffUtil.calculateDiff(DiffCallback(items, newItems))
         items.clear()
         items.addAll(newItems)

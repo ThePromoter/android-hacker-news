@@ -30,6 +30,6 @@ class StoryListActivity :
     }
 
     override fun setStories(stories: List<Story>) {
-        adapter.addStories(stories)
+        adapter.setStories(stories)
     }
 }

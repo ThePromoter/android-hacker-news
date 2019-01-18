@@ -1,4 +1,4 @@
-package com.danpinciotti.mobile.hackernews.service
+package com.danpinciotti.mobile.hackernews.api
 
 import com.danpinciotti.mobile.hackernews.models.HackerNewsItem
 import io.reactivex.Single

@@ -4,7 +4,7 @@ import com.danpinciotti.mobile.hackernews.core.networking.LoggingInterceptor
 import com.danpinciotti.mobile.hackernews.core.networking.moshi.HackerNewsItemTypeAdapter
 import com.danpinciotti.mobile.hackernews.core.networking.moshi.UnixDateAdapter
 import com.danpinciotti.mobile.hackernews.di.qualifiers.BaseUrl
-import com.danpinciotti.mobile.hackernews.di.qualifiers.IoScheduler
+import com.danpinciotti.mobile.hackernews.di.qualifiers.IOScheduler
 import com.danpinciotti.mobile.hackernews.di.scopes.ApplicationScope
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
@@ -41,7 +41,7 @@ class NetworkModule {
     fun provideRetrofit(httpClient: OkHttpClient,
                         @BaseUrl baseUrl: String,
                         moshi: Moshi,
-                        @IoScheduler scheduler: Scheduler): Retrofit =
+                        @IOScheduler scheduler: Scheduler): Retrofit =
         Retrofit.Builder()
             .client(httpClient)
             .baseUrl(baseUrl)

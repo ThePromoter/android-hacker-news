@@ -1,11 +1,8 @@
 package com.danpinciotti.mobile.hackernews.models
 
-import android.os.Parcelable
 import com.squareup.moshi.Json
-import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-@Parcelize
 data class HackerNewsItem(
     val id: Int,
     val type: Type,
@@ -15,10 +12,9 @@ data class HackerNewsItem(
     @Json(name = "parent") val parentId: Int?,
     @Json(name = "kids") val commentIds: List<Int>?,
     val url: String?,
-    val score: Int,
-    val title: String,
-    @Json(name = "descendants") val commentCount: Int?
-) : Parcelable {
+    val score: Int = 0,
+    val title: String?,
+    @Json(name = "descendants") val commentCount: Int?) {
 
     enum class Type {
         JOB, STORY, COMMENT, POLL, POLLOPT

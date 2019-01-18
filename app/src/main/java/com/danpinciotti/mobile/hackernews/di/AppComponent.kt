@@ -3,9 +3,7 @@ package com.danpinciotti.mobile.hackernews.di
 import com.danpinciotti.mobile.hackernews.HackerNewsApplication
 import com.danpinciotti.mobile.hackernews.di.binders.ActivityBuilder
 import com.danpinciotti.mobile.hackernews.di.binders.FragmentBuilder
-import com.danpinciotti.mobile.hackernews.di.modules.ApiModule
-import com.danpinciotti.mobile.hackernews.di.modules.NetworkModule
-import com.danpinciotti.mobile.hackernews.di.modules.SchedulerModule
+import com.danpinciotti.mobile.hackernews.di.modules.*
 import com.danpinciotti.mobile.hackernews.di.scopes.ApplicationScope
 import dagger.BindsInstance
 import dagger.Component
@@ -19,8 +17,10 @@ import dagger.android.AndroidInjectionModule
     FragmentBuilder::class,
 
     ApiModule::class,
+    DatabaseModule::class,
     NetworkModule::class,
-    SchedulerModule::class
+    SchedulerModule::class,
+    ServiceModule::class
 ])
 interface AppComponent {
 

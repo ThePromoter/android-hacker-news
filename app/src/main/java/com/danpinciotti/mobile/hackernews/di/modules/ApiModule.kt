@@ -1,7 +1,7 @@
 package com.danpinciotti.mobile.hackernews.di.modules
 
 import com.danpinciotti.mobile.hackernews.di.scopes.ApplicationScope
-import com.danpinciotti.mobile.hackernews.service.HackerNewsApi
+import com.danpinciotti.mobile.hackernews.api.HackerNewsApi
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit

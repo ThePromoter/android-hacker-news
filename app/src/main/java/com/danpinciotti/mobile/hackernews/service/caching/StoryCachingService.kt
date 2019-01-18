@@ -2,9 +2,7 @@ package com.danpinciotti.mobile.hackernews.service.caching
 
 import com.danpinciotti.mobile.hackernews.api.HackerNewsApi
 import com.danpinciotti.mobile.hackernews.core.service.BaseService
-import com.danpinciotti.mobile.hackernews.database.HackerNewsDao.CommentDao
 import com.danpinciotti.mobile.hackernews.database.HackerNewsDao.StoryDao
-import com.danpinciotti.mobile.hackernews.models.Comment
 import com.danpinciotti.mobile.hackernews.models.HackerNewsItem
 import com.danpinciotti.mobile.hackernews.models.HackerNewsItem.Type.STORY
 import com.danpinciotti.mobile.hackernews.models.Story
@@ -14,35 +12,24 @@ import javax.inject.Inject
 
 class StoryCachingService @Inject constructor(
     private val api: HackerNewsApi,
-    private val storyDao: StoryDao,
-    private val commentDao: CommentDao
+    private val storyDao: StoryDao
 ) : BaseService(), StoryService {
 
     override fun fetchTopStories(): Flowable<List<Story>> {
-        val disk = storyDao.getStories()
+        val disk = storyDao.getStories(PAGE_SIZE)
 
         // Start by getting all of the top storyIds
         val network = api.getTopStoryIds()
             // Stream the results one at a time
             .flattenAsFlowable { it -> it }
             // Get the item for each id
-            .flatMapSingle { id -> api.getItem(id) }
+            .concatMapEager { id -> api.getItem(id).toFlowable() }
             // We only care about stories
-            .filter { item -> item.type == STORY }
-            .flatMap { storyItem ->
-                // Start by persisting this story
-                Flowable.fromCallable { storyDao.insert(storyItem.toStory()) }
-                    // Next let's stream each of the commentIds for this story
-                    .flatMapIterable { storyItem.commentIds }
-                    // Get the item for each commentId
-                    .flatMapSingle { commentId -> api.getItem(commentId) }
-                    .map { commentItem -> commentItem.toComment(storyItem.id) }
-                    // Persist the comment
-                    .doOnNext { comment -> commentDao.insert(comment) }
-                    // Finally, return the item as a story
-                    .map { storyItem.toStory() }
-            }
-            // Group up all of the stories and sort them by date
+            .filter { it.type == STORY }
+            .take(PAGE_SIZE)
+            .map { it.toStory() }
+            .sorted()
+            .doOnNext { storyDao.insert(it) }
             .toList()
             .toFlowable()
 
@@ -58,7 +45,7 @@ class StoryCachingService @Inject constructor(
         return Story(id = id, authorName = authorName, date = date, title = title!!, url = url, score = score)
     }
 
-    private fun HackerNewsItem.toComment(storyId: Int): Comment {
-        return Comment(id = id, parentStoryId = storyId, authorName = authorName, date = date, text = text!!)
+    companion object {
+        const val PAGE_SIZE = 100L
     }
 }

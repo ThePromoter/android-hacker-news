@@ -16,8 +16,8 @@ abstract class HackerNewsDao {
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         abstract fun insert(vararg stories: Story)
 
-        @Query(value = "SELECT * FROM stories ORDER BY date DESC LIMIT 50")
-        abstract fun getStories(): Flowable<List<Story>>
+        @Query(value = "SELECT * FROM stories ORDER BY date DESC LIMIT :limit")
+        abstract fun getStories(limit: Long): Flowable<List<Story>>
     }
 
     @Dao

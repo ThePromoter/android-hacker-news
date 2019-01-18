@@ -17,7 +17,7 @@ abstract class BaseListAdapter<L, VH : RecyclerView.ViewHolder>(
 
     private val inflater = LayoutInflater.from(context)
 
-    var items: List<L> = ArrayList()
+    var items: MutableList<L> = ArrayList()
         set(value) {
             field = value
             notifyDataSetChanged()

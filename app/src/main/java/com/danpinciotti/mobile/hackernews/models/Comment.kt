@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-data class Story(
+data class Comment(
     val id: Int,
     val type: Type,
     val by: String,

@@ -4,13 +4,13 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.danpinciotti.mobile.hackernews.R
 import com.danpinciotti.mobile.hackernews.core.ui.view.BaseActivity
-import com.danpinciotti.mobile.hackernews.models.Story
+import com.danpinciotti.mobile.hackernews.models.HackerNewsItem
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 class StoryListActivity :
-    BaseActivity<List<Story>, StoryListView, StoryListPresenter>(),
+    BaseActivity<List<HackerNewsItem>, StoryListView, StoryListPresenter>(),
     StoryListView, HasSupportFragmentInjector {
 
     @Inject lateinit var injector: DispatchingAndroidInjector<Fragment>
@@ -22,6 +22,7 @@ class StoryListActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        presenter.loadStories()
     }
 
     override fun supportFragmentInjector() = injector

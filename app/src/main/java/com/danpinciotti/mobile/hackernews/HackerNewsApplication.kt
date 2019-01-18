@@ -5,8 +5,8 @@ import android.app.Application
 import com.danpinciotti.mobile.hackernews.di.DaggerAppComponent
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import timber.log.Timber
 import javax.inject.Inject
-
 
 class HackerNewsApplication : Application(), HasActivityInjector {
 
@@ -14,6 +14,9 @@ class HackerNewsApplication : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
         injectDependencies()
     }
 

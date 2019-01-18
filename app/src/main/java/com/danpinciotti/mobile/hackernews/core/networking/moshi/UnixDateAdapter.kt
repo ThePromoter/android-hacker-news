@@ -7,10 +7,10 @@ import java.util.*
 class UnixDateAdapter {
 
     @ToJson fun toJson(date: Date): Long {
-        return date.time
+        return date.time / 1000L
     }
 
     @FromJson fun fromJson(unixDate: Long): Date {
-        return Date(unixDate)
+        return Date(unixDate * 1000L)
     }
 }

@@ -23,6 +23,8 @@ class StoryListActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setSupportActionBar(toolbar)
+
         story_recycler_view.adapter = adapter
         story_recycler_view.layoutManager = layoutManager
 

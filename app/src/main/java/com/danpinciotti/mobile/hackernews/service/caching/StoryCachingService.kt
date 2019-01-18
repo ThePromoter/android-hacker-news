@@ -43,7 +43,7 @@ class StoryCachingService @Inject constructor(
                     .map { storyItem.toStory() }
             }
             // Group up all of the stories and sort them by date
-            .toSortedList { story1, story2 -> story1.date.compareTo(story2.date) }
+            .toList()
             .toFlowable()
 
         // Will return the disk stories immediately, but also kick off a request to get fresh stories.

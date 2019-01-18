@@ -13,6 +13,8 @@ abstract class BaseActivity<M, V : MvpView<M>, P : MvpPresenter<M, V>> :
     abstract fun presenter(): P
     @LayoutRes abstract fun getLayoutRes(): Int?
 
+    private fun getMvpView(): V = this as V
+
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies()
         super.onCreate(savedInstanceState)
@@ -20,6 +22,8 @@ abstract class BaseActivity<M, V : MvpView<M>, P : MvpPresenter<M, V>> :
         getLayoutRes()?.let {
             setContentView(it)
         }
+
+        presenter().attachView(getMvpView())
     }
 
     override fun onDestroy() {

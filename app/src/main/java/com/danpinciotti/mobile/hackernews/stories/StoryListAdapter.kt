@@ -11,6 +11,7 @@ import com.danpinciotti.mobile.hackernews.R
 import com.danpinciotti.mobile.hackernews.core.ui.BaseListAdapter
 import com.danpinciotti.mobile.hackernews.models.Story
 import kotlinx.android.synthetic.main.list_story_item.view.*
+import kotlinx.android.synthetic.main.merge_story_summary.view.*
 import javax.inject.Inject
 
 class StoryListAdapter @Inject constructor(
@@ -48,7 +49,7 @@ class StoryListAdapter @Inject constructor(
         vh.storyDetails.text = if (story.url != null) {
             context.getString(R.string.story_details, story.commentCount, story.urlDomain)
         } else {
-            context.getString(R.string.story_details_no_url, story.commentCount)
+            context.getString(R.string.comment_count, story.commentCount)
         }
 
         vh.container.setOnClickListener {

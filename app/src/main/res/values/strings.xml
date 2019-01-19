@@ -5,6 +5,6 @@
 
     <string name="author_information">%1$s - %2$s</string>
     <string name="story_details">%1$d comments - %2$s</string>
-    <string name="story_details_no_url">%d comments</string>
+    <string name="comment_count">%d comments</string>
 
 </resources>

@@ -56,7 +56,7 @@ class StoryCachingService @Inject constructor(
      */
     private fun HackerNewsItem.toStory(): Story {
         val urlDomain = url?.let { Uri.parse(it).host }
-        return Story(id = id, authorName = authorName!!, date = date, title = title!!, url = url, urlDomain = urlDomain, score = score, commentCount = commentCount)
+        return Story(id = id, authorName = authorName!!, date = date, title = title!!, text = text, url = url, urlDomain = urlDomain, score = score, commentCount = commentCount)
     }
 
     companion object {

@@ -13,6 +13,7 @@ data class Story(
     val authorName: String,
     val date: Date,
     val title: String,
+    val text: String?,
     val url: String?,
     val urlDomain: String?,
     val score: Int,

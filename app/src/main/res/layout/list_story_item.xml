@@ -4,7 +4,6 @@
     style="@style/StoryCard"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
@@ -23,51 +22,7 @@
         android:padding="8dp"
         >
 
-        <TextView
-            android:id="@+id/upvote_count"
-            style="@style/Upvotes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="302"
-            />
-
-        <TextView
-            android:id="@+id/author"
-            style="@style/AuthorInformation"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="@id/upvote_count"
-            app:layout_constraintStart_toEndOf="@id/upvote_count"
-            app:layout_constraintTop_toTopOf="@id/upvote_count"
-            tools:text="dpinciotti - 2 hours ago"
-            />
-
-        <TextView
-            android:id="@+id/story_title"
-            style="@style/StoryTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/upvote_count"
-            tools:text="Title of story"
-            />
-
-        <TextView
-            android:id="@+id/story_details"
-            style="@style/Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/story_title"
-            android:layout_marginTop="8dp"
-            tools:text="10 comments - www.google.com"
-            />
+        <include layout="@layout/merge_story_summary"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.danpinciotti.mobile.hackernews.R
 import com.danpinciotti.mobile.hackernews.core.ui.BaseListAdapter
+import com.danpinciotti.mobile.hackernews.core.utils.toHtml
 import com.danpinciotti.mobile.hackernews.models.Comment
 import kotlinx.android.synthetic.main.list_comment_item.view.*
 import javax.inject.Inject
@@ -38,7 +39,7 @@ class CommentListAdapter @Inject constructor(
 
         vh.author.text = comment.authorName
         vh.date.text = relativeDate
-        vh.comment.text = comment.text
+        vh.comment.text = comment.text.toHtml()
         vh.indent.setGuidelineBegin(comment.level * context.resources.getDimensionPixelOffset(R.dimen.commentIndent))
     }
 

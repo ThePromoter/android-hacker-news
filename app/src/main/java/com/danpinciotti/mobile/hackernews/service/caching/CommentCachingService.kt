@@ -55,6 +55,7 @@ class CommentCachingService @Inject constructor(
                                .map { it.toComment(storyId).also { comment -> comment.level = level } },
                            Flowable.fromIterable(parentItem.commentIds)
                                .concatMapEager { api.getItem(it).toFlowable() }
+                               .filter { !it.deleted }
                                .sorted()
                                .concatMap { getCommentsFromApi(it, storyId, level + 1) })
         }

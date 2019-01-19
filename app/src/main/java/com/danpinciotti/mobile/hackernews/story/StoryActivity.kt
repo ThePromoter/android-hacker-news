@@ -8,6 +8,7 @@ import com.danpinciotti.mobile.hackernews.core.ui.view.BaseActivity
 import com.danpinciotti.mobile.hackernews.models.Story
 import com.danpinciotti.mobile.hackernews.story.comments.StoryCommentsFragment
 import com.danpinciotti.mobile.hackernews.story.web.StoryWebViewFragment
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.EXPANDED
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_story.*
@@ -46,6 +47,10 @@ class StoryActivity :
         supportFragmentManager.beginTransaction().apply {
             if (story.url != null) {
                 replace(R.id.main_fragment_container, StoryWebViewFragment.newInstance(story))
+            } else {
+                sliding_panel_layout.anchorPoint = 1f
+                sliding_panel_layout.panelState = EXPANDED
+                sliding_panel_layout.isTouchEnabled = false
             }
             replace(R.id.sliding_fragment_container, StoryCommentsFragment.newInstance(story))
             commit()

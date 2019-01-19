@@ -20,9 +20,6 @@ class StoryPresenter @Inject constructor() :
     }
 
     override fun onNext(data: StoryWithComments) {
-        data.story.url?.run {
-            getView()?.showUrl(this)
-        }
-        getView()?.showComments(data.comments)
+        getView()?.showStoryDetails(data)
     }
 }

@@ -12,6 +12,8 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
 
+    <color name="primaryIconColor">#ffffff</color>
+
     <color name="backgroundDark">#33343B</color>
 
 </resources>

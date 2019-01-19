@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/secondaryColor</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
         <item name="android:textColorSecondary">@color/primaryLightColor</item>
+        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
     <style name="ActivityTheme" parent="AppTheme">

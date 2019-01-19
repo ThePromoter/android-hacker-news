@@ -2,12 +2,14 @@ package com.danpinciotti.mobile.hackernews.story
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import com.danpinciotti.mobile.hackernews.R
 import com.danpinciotti.mobile.hackernews.core.ui.view.BaseActivity
 import com.danpinciotti.mobile.hackernews.models.Story
 import com.danpinciotti.mobile.hackernews.story.comments.StoryCommentsFragment
 import com.danpinciotti.mobile.hackernews.story.web.StoryWebViewFragment
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.EXPANDED
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -30,6 +32,9 @@ class StoryActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        sliding_panel_layout.anchorPoint = 1f
+        sliding_panel_layout.panelState = EXPANDED
+
         setupStoryActions()
 
         val storyId = intent.getIntExtra(KEY_STORY_ID, 0)
@@ -47,9 +52,8 @@ class StoryActivity :
         supportFragmentManager.beginTransaction().apply {
             if (story.url != null) {
                 replace(R.id.main_fragment_container, StoryWebViewFragment.newInstance(story))
+                Handler().postDelayed({ sliding_panel_layout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED }, 1000)
             } else {
-                sliding_panel_layout.anchorPoint = 1f
-                sliding_panel_layout.panelState = EXPANDED
                 sliding_panel_layout.isTouchEnabled = false
             }
             replace(R.id.sliding_fragment_container, StoryCommentsFragment.newInstance(story))

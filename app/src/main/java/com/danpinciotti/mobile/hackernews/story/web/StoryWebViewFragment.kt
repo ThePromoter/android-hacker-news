@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class StoryWebViewFragment :
     BaseFragment<Story, StoryWebView, StoryWebPresenter>(),
-    StoryWebView {
+    StoryWebView, BrowserControls {
 
     @Inject lateinit var presenter: StoryWebPresenter
     @Inject lateinit var webViewClient: WebViewClient
@@ -36,6 +36,18 @@ class StoryWebViewFragment :
 
     override fun showUrl(url: String) {
         web_view.loadUrl(url)
+    }
+
+    override fun refresh() {
+        web_view.reload()
+    }
+
+    override fun goBack() {
+        web_view.goBack()
+    }
+
+    override fun goForward() {
+        web_view.goForward()
     }
 
     companion object {

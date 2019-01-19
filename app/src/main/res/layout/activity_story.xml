@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.sothree.slidinguppanel.SlidingUpPanelLayout
+    android:id="@+id/sliding_panel_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/sliding_panel_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         >
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/story_action_container"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -34,45 +34,125 @@
 
             <ImageView
                 android:id="@+id/browse_back"
+                style="@style/StoryActionIcon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="16dp"
                 android:src="@drawable/ic_chevron_left"
-                android:tint="@color/primaryIconColor"
+                app:layout_constraintEnd_toStartOf="@+id/browse_forward"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
             <ImageView
                 android:id="@+id/browse_forward"
+                style="@style/StoryActionIcon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="16dp"
                 android:src="@drawable/ic_chevron_right"
-                android:tint="@color/primaryIconColor"
+                app:layout_constraintEnd_toStartOf="@+id/refresh"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/browse_back"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
             <ImageView
                 android:id="@+id/refresh"
+                style="@style/StoryActionIcon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="16dp"
                 android:src="@drawable/ic_refresh"
-                android:tint="@color/primaryIconColor"
+                app:layout_constraintEnd_toStartOf="@+id/open_externally_collapsed"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/browse_forward"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
             <ImageView
-                android:id="@+id/open_externally"
+                android:id="@+id/open_externally_collapsed"
+                style="@style/StoryActionIcon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="16dp"
                 android:src="@drawable/ic_public"
-                android:tint="@color/primaryIconColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/refresh"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/navigate_back"
+                style="@style/StoryActionIcon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back"
+                app:layout_constraintEnd_toStartOf="@+id/like"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/like"
+                style="@style/StoryActionIcon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_like"
+                app:layout_constraintEnd_toStartOf="@+id/add_comment"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/navigate_back"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/add_comment"
+                style="@style/StoryActionIcon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_reply"
+                app:layout_constraintEnd_toStartOf="@+id/open_externally_expanded"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/like"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/open_externally_expanded"
+                style="@style/StoryActionIcon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_public"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/add_comment"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/collapsed_action_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="browse_back,browse_forward,refresh,open_externally_collapsed"
+                />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/expanded_action_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="navigate_back,like,add_comment,open_externally_expanded"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:id="@+id/sliding_fragment_container"

@@ -29,7 +29,10 @@ abstract class HackerNewsDao {
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         abstract fun insert(vararg comments: Comment)
 
-        @Query(value = "SELECT * FROM comments WHERE parentStoryId = :parentStoryId ORDER BY date DESC")
-        abstract fun getComments(parentStoryId: Int): Flowable<List<Comment>>
+        @Query(value = "SELECT * FROM comments WHERE parentStoryId = :parentStoryId AND parentCommentId IS NULL ORDER BY date DESC")
+        abstract fun getParentCommentsForStory(parentStoryId: Int): Single<List<Comment>>
+
+        @Query(value = "SELECT * FROM comments WHERE parentCommentId = :parentCommentId ORDER BY date DESC")
+        abstract fun getChildComments(parentCommentId: Int): Single<List<Comment>>
     }
 }

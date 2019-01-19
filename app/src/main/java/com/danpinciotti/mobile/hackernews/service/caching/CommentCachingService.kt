@@ -15,16 +15,22 @@ class CommentCachingService @Inject constructor(
 ) : BaseService(), CommentService {
 
     override fun fetchComments(storyId: Int): Flowable<List<Comment>> {
-        val disk = commentDao.getComments(storyId)
+        val disk = commentDao.getParentCommentsForStory(storyId)
+            .flattenAsFlowable { it }
+            .concatMap { getCommentsFromDao(it) }
+            .toList()
+            .toFlowable()
 
         // Start by getting the parent story
         val network = api.getItem(storyId)
+            .filter { !it.deleted }
+            .flattenAsFlowable { it.commentIds }
+            .concatMapEager { api.getItem(it).toFlowable() }
+            .sorted()
+            .filter { !it.deleted }
             // Stream the commentIds one at a time
-            .flattenAsFlowable { story -> story.commentIds }
-            // Get the comment for each id
-            .concatMapEager { id -> api.getItem(id).toFlowable() }
-            .map { it.toComment(storyId) }
-            .toSortedList()
+            .concatMap { getCommentsFromApi(it, storyId) }
+            .toList()
             // Persist the comments
             .doOnSuccess { commentDao.insert(*it.toTypedArray()) }
             .toFlowable()
@@ -34,7 +40,28 @@ class CommentCachingService @Inject constructor(
         return allListFlowables(disk, network)
     }
 
+    private fun getCommentsFromDao(parentComment: Comment, level: Int = 0): Flowable<Comment> {
+        return Flowable.merge(Flowable.just(parentComment.also { it.level = level }),
+                              commentDao.getChildComments(parentComment.id)
+                                  .flattenAsFlowable { it }
+                                  .concatMap { getCommentsFromDao(it, level + 1) })
+    }
+
+    private fun getCommentsFromApi(parentItem: HackerNewsItem, storyId: Int, level: Int = 0): Flowable<Comment> {
+        return if (parentItem.commentIds.isNullOrEmpty()) {
+            Flowable.just(parentItem.toComment(storyId).also { it.level = level })
+        } else {
+            Flowable.merge(Flowable.just(parentItem)
+                               .map { it.toComment(storyId).also { comment -> comment.level = level } },
+                           Flowable.fromIterable(parentItem.commentIds)
+                               .concatMapEager { api.getItem(it).toFlowable() }
+                               .sorted()
+                               .concatMap { getCommentsFromApi(it, storyId, level + 1) })
+        }
+    }
+
     private fun HackerNewsItem.toComment(storyId: Int): Comment {
-        return Comment(id = id, parentStoryId = storyId, authorName = authorName, date = date, text = text!!)
+        val parentCommentId = if (parentId != storyId) parentId else null
+        return Comment(id = id, parentStoryId = storyId, parentCommentId = parentCommentId, authorName = authorName!!, date = date, text = text!!)
     }
 }

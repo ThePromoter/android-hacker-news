@@ -1,9 +1,9 @@
 package com.danpinciotti.mobile.hackernews.story
 
 import com.danpinciotti.mobile.hackernews.core.ui.view.MvpView
-import com.danpinciotti.mobile.hackernews.models.StoryWithComments
+import com.danpinciotti.mobile.hackernews.models.Story
 
-interface StoryView : MvpView<StoryWithComments> {
+interface StoryView : MvpView<Story> {
 
-    fun showStoryDetails(storyWithComments: StoryWithComments)
+    fun showStoryDetails(story: Story)
 }

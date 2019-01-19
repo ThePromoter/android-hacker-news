@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "31c350d2b1043e8f143e3cf9b4f714d0",
+    "identityHash": "af09d81ee64fd5648a95c181b74818b4",
     "entities": [
       {
         "tableName": "stories",
@@ -68,7 +68,7 @@
       },
       {
         "tableName": "comments",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `parentStoryId` INTEGER NOT NULL, `authorName` TEXT NOT NULL, `date` INTEGER NOT NULL, `text` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`parentStoryId`) REFERENCES `stories`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `parentStoryId` INTEGER NOT NULL, `parentCommentId` INTEGER, `authorName` TEXT NOT NULL, `date` INTEGER NOT NULL, `text` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`parentStoryId`) REFERENCES `stories`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -81,6 +81,12 @@
             "columnName": "parentStoryId",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "parentCommentId",
+            "columnName": "parentCommentId",
+            "affinity": "INTEGER",
+            "notNull": false
           },
           {
             "fieldPath": "authorName",
@@ -135,7 +141,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"31c350d2b1043e8f143e3cf9b4f714d0\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"af09d81ee64fd5648a95c181b74818b4\")"
     ]
   }
 }

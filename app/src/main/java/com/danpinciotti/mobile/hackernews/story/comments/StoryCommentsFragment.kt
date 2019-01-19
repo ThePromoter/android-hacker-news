@@ -2,9 +2,12 @@ package com.danpinciotti.mobile.hackernews.story.comments
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.danpinciotti.mobile.hackernews.R
 import com.danpinciotti.mobile.hackernews.core.ui.view.BaseFragment
 import com.danpinciotti.mobile.hackernews.models.Comment
+import com.danpinciotti.mobile.hackernews.models.Story
+import kotlinx.android.synthetic.main.fragment_story_comments.*
 import javax.inject.Inject
 
 class StoryCommentsFragment :
@@ -12,8 +15,10 @@ class StoryCommentsFragment :
     StoryCommentsView {
 
     @Inject lateinit var presenter: StoryCommentsPresenter
+    @Inject lateinit var adapter: CommentListAdapter
+    @Inject lateinit var layoutManager: RecyclerView.LayoutManager
 
-    private lateinit var comments: List<Comment>
+    private lateinit var story: Story
 
     override fun presenter() = presenter
 
@@ -21,20 +26,29 @@ class StoryCommentsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        comments = (arguments?.getParcelableArray(COMMENTS) as? Array<Comment>)?.toList() ?: throw Exception("missing required story argument")
+        story = arguments?.getParcelable(STORY) ?: throw Exception("missing required story argument")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        comment_recycler_view.adapter = adapter
+        comment_recycler_view.layoutManager = layoutManager
+
+        presenter.loadAllNestedComments(story)
+    }
+
+    override fun renderComments(parentComments: List<Comment>) {
+        adapter.setComments(parentComments)
     }
 
     companion object {
-        const val COMMENTS = "COMMENTS"
+        const val STORY = "STORY"
 
-        fun newInstance(comments: List<Comment>): StoryCommentsFragment {
+        fun newInstance(story: Story): StoryCommentsFragment {
             val fragment = StoryCommentsFragment()
             fragment.arguments = Bundle().apply {
-                putParcelableArray(COMMENTS, comments.toTypedArray())
+                putParcelable(STORY, story)
             }
             return fragment
         }

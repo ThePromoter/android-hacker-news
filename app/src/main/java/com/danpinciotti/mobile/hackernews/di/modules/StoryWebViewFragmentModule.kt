@@ -8,8 +8,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 
-@Module(includes = [StoryWebFragmentModule.BindsModule::class, BaseFragmentModule::class])
-class StoryWebFragmentModule {
+@Module(includes = [StoryWebViewFragmentModule.BindsModule::class, BaseFragmentModule::class])
+class StoryWebViewFragmentModule {
 
     @Provides @FragmentScope
     fun provideWebViewClient(): WebViewClient = WebViewClient()

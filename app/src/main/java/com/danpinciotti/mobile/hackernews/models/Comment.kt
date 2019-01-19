@@ -1,10 +1,8 @@
 package com.danpinciotti.mobile.hackernews.models
 
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -23,10 +21,13 @@ import java.util.*
 data class Comment(
     @PrimaryKey val id: Int,
     val parentStoryId: Int,
+    val parentCommentId: Int?,
     val authorName: String,
     val date: Date,
     val text: String
 ) : Parcelable, Comparable<Comment> {
+
+    @IgnoredOnParcel @Ignore var level: Int = 0
 
     override fun compareTo(other: Comment) = other.date.compareTo(date)
 }

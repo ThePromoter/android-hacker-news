@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.danpinciotti.mobile.hackernews.R
 import com.danpinciotti.mobile.hackernews.core.ui.view.BaseActivity
-import com.danpinciotti.mobile.hackernews.models.StoryWithComments
+import com.danpinciotti.mobile.hackernews.models.Story
 import com.danpinciotti.mobile.hackernews.story.comments.StoryCommentsFragment
 import com.danpinciotti.mobile.hackernews.story.web.StoryWebViewFragment
 import dagger.android.DispatchingAndroidInjector
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 
 class StoryActivity :
-    BaseActivity<StoryWithComments, StoryView, StoryPresenter>(),
+    BaseActivity<Story, StoryView, StoryPresenter>(),
     StoryView, HasSupportFragmentInjector {
 
     @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
@@ -42,12 +42,12 @@ class StoryActivity :
         open_externally.setOnClickListener {  }
     }
 
-    override fun showStoryDetails(storyWithComments: StoryWithComments) {
+    override fun showStoryDetails(story: Story) {
         supportFragmentManager.beginTransaction().apply {
-            if (storyWithComments.story.url != null) {
-                replace(R.id.main_fragment_container, StoryWebViewFragment.newInstance(storyWithComments.story))
+            if (story.url != null) {
+                replace(R.id.main_fragment_container, StoryWebViewFragment.newInstance(story))
             }
-            replace(R.id.sliding_fragment_container, StoryCommentsFragment.newInstance(storyWithComments.comments))
+            replace(R.id.sliding_fragment_container, StoryCommentsFragment.newInstance(story))
             commit()
         }
     }

@@ -7,15 +7,16 @@ import com.danpinciotti.mobile.hackernews.di.modules.*
 import com.danpinciotti.mobile.hackernews.di.scopes.ApplicationScope
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
+import dagger.android.support.AndroidSupportInjectionModule
 
 @ApplicationScope
 @Component(modules = [
-    AndroidInjectionModule::class,
+    AndroidSupportInjectionModule::class,
 
     ActivityBuilder::class,
     FragmentBuilder::class,
 
+    AppModule::class,
     ApiModule::class,
     DatabaseModule::class,
     NetworkModule::class,
@@ -26,7 +27,9 @@ interface AppComponent {
 
     @Component.Builder
     interface Builder {
-        @BindsInstance fun application(application:HackerNewsApplication): Builder
+        @BindsInstance
+        fun application(application: HackerNewsApplication): Builder
+
         fun build(): AppComponent
     }
 

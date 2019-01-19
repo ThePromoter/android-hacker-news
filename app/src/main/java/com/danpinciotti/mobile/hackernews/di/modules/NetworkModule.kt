@@ -1,6 +1,8 @@
 package com.danpinciotti.mobile.hackernews.di.modules
 
+import android.app.Application
 import com.danpinciotti.mobile.hackernews.core.networking.LoggingInterceptor
+import com.danpinciotti.mobile.hackernews.core.networking.NoNetworkConnectionInterceptor
 import com.danpinciotti.mobile.hackernews.core.networking.moshi.HackerNewsItemTypeAdapter
 import com.danpinciotti.mobile.hackernews.core.networking.moshi.UnixDateAdapter
 import com.danpinciotti.mobile.hackernews.di.qualifiers.BaseUrl
@@ -15,6 +17,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 
 @Module
 class NetworkModule {
@@ -23,9 +26,11 @@ class NetworkModule {
     fun provideBaseUrl() = "https://hacker-news.firebaseio.com/v0/"
 
     @Provides @ApplicationScope
-    fun provideOkHttpClient(): OkHttpClient =
+    fun provideOkHttpClient(application: Application): OkHttpClient =
         OkHttpClient.Builder()
+            .addInterceptor(NoNetworkConnectionInterceptor(application))
             .addInterceptor(LoggingInterceptor())
+            .callTimeout(10, TimeUnit.SECONDS)
             .build()
 
     @Provides @ApplicationScope

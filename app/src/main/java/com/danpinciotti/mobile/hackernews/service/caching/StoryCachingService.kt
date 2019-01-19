@@ -27,7 +27,7 @@ class StoryCachingService @Inject constructor(
             // Get the item for each id
             .flatMapSingle { id -> api.getItem(id) }
             // We only care about stories
-            .filter { it.type == STORY }
+            .filter { it.type == STORY && !it.deleted }
             .take(PAGE_SIZE)
             .map { it.toStory() }
             .toSortedList()
@@ -43,6 +43,8 @@ class StoryCachingService @Inject constructor(
     override fun fetchStory(storyId: Int): Single<Story> {
         val disk = storyDao.getStory(storyId)
         val network = api.getItem(storyId)
+            .filter { !it.deleted }
+            .toSingle()
             .map { it.toStory() }
             .doOnSuccess { storyDao.insert(it) }
 
@@ -54,7 +56,7 @@ class StoryCachingService @Inject constructor(
      */
     private fun HackerNewsItem.toStory(): Story {
         val urlDomain = url?.let { Uri.parse(it).host }
-        return Story(id = id, authorName = authorName, date = date, title = title!!, url = url, urlDomain = urlDomain, score = score, commentCount = commentCount)
+        return Story(id = id, authorName = authorName!!, date = date, title = title!!, url = url, urlDomain = urlDomain, score = score, commentCount = commentCount)
     }
 
     companion object {

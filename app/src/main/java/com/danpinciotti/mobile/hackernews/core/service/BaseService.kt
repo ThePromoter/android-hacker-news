@@ -16,12 +16,7 @@ abstract class BaseService {
         val modifiedSources = LinkedList<Flowable<T>>()
         for (i in sources.indices) {
             val source = sources[i]
-            // If the observable is the last one, allow it to emit an error
-            if (i == sources.size - 1) {
-                modifiedSources.add(source)
-                continue
-            }
-            // Otherwise, ignore the error (allows a fresher source to still get called)
+            // Ignore the error (allows a fresher source to still get called)
             modifiedSources.add(source.materialize()
                                     .doOnNext { it -> if (it.isOnError) Timber.e(it.error) }
                                     .filter { it -> !it.isOnError }

@@ -13,11 +13,17 @@ import com.danpinciotti.mobile.hackernews.models.Story
 import kotlinx.android.synthetic.main.list_story_item.view.*
 import javax.inject.Inject
 
-class StoryListAdapter @Inject constructor(val context: Context) :
-    BaseListAdapter<Story, StoryListAdapter.ViewHolder>(context) {
+class StoryListAdapter @Inject constructor(
+    private val context: Context,
+    private val storyActionListener: StoryActionListener
+) : BaseListAdapter<Story, StoryListAdapter.ViewHolder>(context) {
 
     init {
         setHasStableIds(true)
+    }
+
+    interface StoryActionListener {
+        fun storyClicked()
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -25,6 +31,7 @@ class StoryListAdapter @Inject constructor(val context: Context) :
         val title: TextView = itemView.story_title
         val author: TextView = itemView.author
         val upvoteCount: TextView = itemView.upvote_count
+        val storyDetails: TextView = itemView.story_details
     }
 
     override fun getLayoutRes(viewType: Int) = R.layout.list_story_item
@@ -38,8 +45,15 @@ class StoryListAdapter @Inject constructor(val context: Context) :
         vh.title.text = story.title
         vh.author.text = context.getString(R.string.author_information, story.authorName, relativeDate)
         vh.upvoteCount.text = story.score.toString()
+        vh.storyDetails.text = if (story.url != null) {
+            context.getString(R.string.story_details, story.commentCount, story.urlDomain)
+        } else {
+            context.getString(R.string.story_details_no_url, story.commentCount)
+        }
 
-        vh.container.setOnClickListener {  }
+        vh.container.setOnClickListener {
+            storyActionListener.storyClicked()
+        }
     }
 
     override fun getItemId(position: Int) = getItem(position).id.toLong()

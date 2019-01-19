@@ -14,7 +14,9 @@ data class Story(
     val date: Date,
     val title: String,
     val url: String?,
-    val score: Int
+    val urlDomain: String?,
+    val score: Int,
+    val commentCount: Int = 0
 ) : Parcelable, Comparable<Story> {
 
     override fun compareTo(other: Story) = other.date.compareTo(date)

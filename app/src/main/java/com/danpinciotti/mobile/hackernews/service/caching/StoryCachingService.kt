@@ -1,5 +1,6 @@
 package com.danpinciotti.mobile.hackernews.service.caching
 
+import android.net.Uri
 import com.danpinciotti.mobile.hackernews.api.HackerNewsApi
 import com.danpinciotti.mobile.hackernews.core.service.BaseService
 import com.danpinciotti.mobile.hackernews.database.HackerNewsDao.StoryDao
@@ -23,7 +24,7 @@ class StoryCachingService @Inject constructor(
             // Stream the results one at a time
             .flattenAsFlowable { it -> it }
             // Get the item for each id
-            .concatMapEager { id -> api.getItem(id).toFlowable() }
+            .flatMapSingle { id -> api.getItem(id) }
             // We only care about stories
             .filter { it.type == STORY }
             .take(PAGE_SIZE)
@@ -42,7 +43,8 @@ class StoryCachingService @Inject constructor(
      * Functions for mapping API models to DAO entities
      */
     private fun HackerNewsItem.toStory(): Story {
-        return Story(id = id, authorName = authorName, date = date, title = title!!, url = url, score = score)
+        val urlDomain = url?.let { Uri.parse(it).host }
+        return Story(id = id, authorName = authorName, date = date, title = title!!, url = url, urlDomain = urlDomain, score = score, commentCount = commentCount)
     }
 
     companion object {

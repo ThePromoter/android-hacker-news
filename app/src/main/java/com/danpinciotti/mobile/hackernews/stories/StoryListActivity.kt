@@ -5,12 +5,13 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.danpinciotti.mobile.hackernews.R
 import com.danpinciotti.mobile.hackernews.core.ui.view.BaseActivity
 import com.danpinciotti.mobile.hackernews.models.Story
+import com.danpinciotti.mobile.hackernews.stories.StoryListAdapter.StoryActionListener
 import kotlinx.android.synthetic.main.activity_story_list.*
 import javax.inject.Inject
 
 class StoryListActivity :
     BaseActivity<List<Story>, StoryListView, StoryListPresenter>(),
-    StoryListView {
+    StoryListView, StoryActionListener {
 
     @Inject lateinit var presenter: StoryListPresenter
     @Inject lateinit var adapter: StoryListAdapter
@@ -33,5 +34,9 @@ class StoryListActivity :
 
     override fun setStories(stories: List<Story>) {
         adapter.setStories(stories)
+    }
+
+    override fun storyClicked() {
+
     }
 }

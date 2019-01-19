@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.danpinciotti.mobile.hackernews.di.scopes.ActivityScope
 import com.danpinciotti.mobile.hackernews.stories.StoryListActivity
 import com.danpinciotti.mobile.hackernews.stories.StoryListAdapter
+import com.danpinciotti.mobile.hackernews.stories.StoryListAdapter.StoryActionListener
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -16,7 +17,7 @@ import dagger.Provides
 class StoryListActivityModule {
 
     @Provides @ActivityScope
-    fun provideAdapter(context: Context) = StoryListAdapter(context)
+    fun provideAdapter(context: Context, listener: StoryActionListener) = StoryListAdapter(context, listener)
 
     @Provides @ActivityScope
     fun provideLayoutManager(context: Context): LayoutManager = LinearLayoutManager(context)
@@ -24,5 +25,8 @@ class StoryListActivityModule {
     @Module interface BindsModule {
         @Binds @ActivityScope
         fun bindActivity(activity: StoryListActivity): AppCompatActivity
+
+        @Binds @ActivityScope
+        fun bind(activity: StoryListActivity): StoryActionListener
     }
 }

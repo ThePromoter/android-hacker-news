@@ -6,6 +6,7 @@ import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subscribers.ResourceSubscriber
+import timber.log.Timber
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -43,7 +44,9 @@ abstract class BaseMvpPresenter<M, V : MvpView<M>> :
 
     open fun onComplete() {}
     open fun onNext(data: M) {}
-    open fun onError(error: Throwable?) {}
+    open fun onError(error: Throwable?) {
+        Timber.e(error)
+    }
 
     override fun attachView(view: V) {
         viewRef = WeakReference(view)

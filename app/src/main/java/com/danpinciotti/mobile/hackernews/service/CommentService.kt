@@ -1,9 +1,9 @@
 package com.danpinciotti.mobile.hackernews.service
 
 import com.danpinciotti.mobile.hackernews.models.Comment
-import io.reactivex.Single
+import io.reactivex.Flowable
 
 interface CommentService {
 
-    fun fetchComments(storyId: Int): Single<List<Comment>>
+    fun fetchComments(storyId: Int): Flowable<List<Comment>>
 }

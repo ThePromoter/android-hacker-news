@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "65ee7503898a03c412214c3ee446e8cb",
+    "identityHash": "31c350d2b1043e8f143e3cf9b4f714d0",
     "entities": [
       {
         "tableName": "stories",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `authorName` TEXT NOT NULL, `date` INTEGER NOT NULL, `title` TEXT NOT NULL, `url` TEXT, `score` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `authorName` TEXT NOT NULL, `date` INTEGER NOT NULL, `title` TEXT NOT NULL, `url` TEXT, `urlDomain` TEXT, `score` INTEGER NOT NULL, `commentCount` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -39,8 +39,20 @@
             "notNull": false
           },
           {
+            "fieldPath": "urlDomain",
+            "columnName": "urlDomain",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "score",
             "columnName": "score",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "commentCount",
+            "columnName": "commentCount",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -123,7 +135,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"65ee7503898a03c412214c3ee446e8cb\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"31c350d2b1043e8f143e3cf9b4f714d0\")"
     ]
   }
 }

@@ -3,23 +3,39 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/primaryLightColor</item>
+    </style>
+
+    <style name="ActivityTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/backgroundDark</item>
+    </style>
+
+    <style name="StoryCard" parent="CardView.Dark">
     </style>
 
     <style name="Upvotes" parent="TextAppearance.AppCompat.Headline">
-        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="Caption" parent="TextAppearance.AppCompat.Caption">
+    </style>
+
     <style name="AuthorInformation" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="StoryTitle" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Toolbar" parent="Base.Widget.AppCompat.Toolbar">
+        <item name="android:layout_height">?android:actionBarSize</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 
 </resources>

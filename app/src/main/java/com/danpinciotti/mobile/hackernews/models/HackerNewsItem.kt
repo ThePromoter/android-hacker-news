@@ -14,7 +14,7 @@ data class HackerNewsItem(
     val url: String?,
     val score: Int = 0,
     val title: String?,
-    @Json(name = "descendants") val commentCount: Int?) {
+    @Json(name = "descendants") val commentCount: Int = 0) {
 
     enum class Type {
         JOB, STORY, COMMENT, POLL, POLLOPT

@@ -6,9 +6,6 @@ import io.reactivex.Single
 import timber.log.Timber
 import java.util.*
 
-
-
-
 abstract class BaseService {
 
     protected fun <T : List<Parcelable>> allListFlowables(vararg sources: Flowable<T>): Flowable<T> {

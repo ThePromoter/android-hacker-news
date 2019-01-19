@@ -1,11 +1,14 @@
 package com.danpinciotti.mobile.hackernews.stories
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.danpinciotti.mobile.hackernews.R
 import com.danpinciotti.mobile.hackernews.core.ui.view.BaseActivity
 import com.danpinciotti.mobile.hackernews.models.Story
 import com.danpinciotti.mobile.hackernews.stories.StoryListAdapter.StoryActionListener
+import com.danpinciotti.mobile.hackernews.story.StoryActivity
+import com.danpinciotti.mobile.hackernews.story.StoryActivity.Companion.KEY_STORY_ID
 import kotlinx.android.synthetic.main.activity_story_list.*
 import javax.inject.Inject
 
@@ -36,7 +39,10 @@ class StoryListActivity :
         adapter.setStories(stories)
     }
 
-    override fun storyClicked() {
-
+    override fun storyClicked(storyId: Int) {
+        Intent(this, StoryActivity::class.java).run {
+            putExtra(KEY_STORY_ID, storyId)
+            startActivity(this)
+        }
     }
 }

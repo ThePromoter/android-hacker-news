@@ -23,7 +23,7 @@ class StoryListAdapter @Inject constructor(
     }
 
     interface StoryActionListener {
-        fun storyClicked()
+        fun storyClicked(storyId: Int)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -52,7 +52,7 @@ class StoryListAdapter @Inject constructor(
         }
 
         vh.container.setOnClickListener {
-            storyActionListener.storyClicked()
+            storyActionListener.storyClicked(story.id)
         }
     }
 

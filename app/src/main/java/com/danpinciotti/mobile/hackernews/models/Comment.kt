@@ -26,4 +26,7 @@ data class Comment(
     val authorName: String,
     val date: Date,
     val text: String
-) : Parcelable
+) : Parcelable, Comparable<Comment> {
+
+    override fun compareTo(other: Comment) = other.date.compareTo(date)
+}

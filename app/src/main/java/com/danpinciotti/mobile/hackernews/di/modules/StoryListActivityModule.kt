@@ -12,7 +12,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 
-
 @Module(includes = [StoryListActivityModule.BindsModule::class, BaseActivityModule::class])
 class StoryListActivityModule {
 
@@ -27,6 +26,6 @@ class StoryListActivityModule {
         fun bindActivity(activity: StoryListActivity): AppCompatActivity
 
         @Binds @ActivityScope
-        fun bind(activity: StoryListActivity): StoryActionListener
+        fun bindListener(activity: StoryListActivity): StoryActionListener
     }
 }

@@ -2,8 +2,11 @@ package com.danpinciotti.mobile.hackernews.core.service
 
 import android.os.Parcelable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import timber.log.Timber
 import java.util.*
+
+
 
 
 abstract class BaseService {
@@ -26,5 +29,17 @@ abstract class BaseService {
         }
 
         return Flowable.mergeDelayError(modifiedSources)
+    }
+
+    /**
+     * To use when A is a Parcelable
+     *
+     * @param sources
+     * @param <A>
+     * @return
+    </A> */
+    @SafeVarargs
+    protected fun <T : Parcelable> firstSingle(vararg sources: Single<T>): Single<T> {
+        return Single.concatArray(*sources).firstOrError()
     }
 }

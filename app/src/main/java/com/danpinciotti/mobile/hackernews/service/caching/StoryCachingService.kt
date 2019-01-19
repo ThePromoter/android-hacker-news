@@ -9,6 +9,7 @@ import com.danpinciotti.mobile.hackernews.models.HackerNewsItem.Type.STORY
 import com.danpinciotti.mobile.hackernews.models.Story
 import com.danpinciotti.mobile.hackernews.service.StoryService
 import io.reactivex.Flowable
+import io.reactivex.Single
 import javax.inject.Inject
 
 class StoryCachingService @Inject constructor(
@@ -37,6 +38,15 @@ class StoryCachingService @Inject constructor(
         // Will return the disk stories immediately, but also kick off a request to get fresh stories.
         // When that call has returned, will emit those stories as well
         return allListFlowables(disk, network)
+    }
+
+    override fun fetchStory(storyId: Int): Single<Story> {
+        val disk = storyDao.getStory(storyId)
+        val network = api.getItem(storyId)
+            .map { it.toStory() }
+            .doOnSuccess { storyDao.insert(it) }
+
+        return firstSingle(disk, network)
     }
 
     /*

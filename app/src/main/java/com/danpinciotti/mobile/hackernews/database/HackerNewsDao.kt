@@ -7,6 +7,7 @@ import androidx.room.Query
 import com.danpinciotti.mobile.hackernews.models.Comment
 import com.danpinciotti.mobile.hackernews.models.Story
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 
 abstract class HackerNewsDao {
@@ -18,6 +19,9 @@ abstract class HackerNewsDao {
 
         @Query(value = "SELECT * FROM stories ORDER BY date DESC LIMIT :limit")
         abstract fun getStories(limit: Long): Flowable<List<Story>>
+
+        @Query(value = "SELECT * FROM stories WHERE id = :storyId")
+        abstract fun getStory(storyId: Int): Single<Story>
     }
 
     @Dao

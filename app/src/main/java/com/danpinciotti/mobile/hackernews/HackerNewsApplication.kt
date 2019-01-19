@@ -5,6 +5,7 @@ import android.app.Application
 import com.danpinciotti.mobile.hackernews.di.DaggerAppComponent
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -18,6 +19,8 @@ class HackerNewsApplication : Application(), HasActivityInjector {
             Timber.plant(Timber.DebugTree())
         }
         injectDependencies()
+
+        RxJavaPlugins.setErrorHandler { Timber.e(it) }
     }
 
     private fun injectDependencies() = DaggerAppComponent.builder().application(this).build().inject(this)

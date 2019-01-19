@@ -1,6 +1,7 @@
 <resources>
 
     <string name="app_name">Hacker News</string>
+    <string name="story_title">Story</string>
 
     <string name="author_information">%1$s - %2$s</string>
     <string name="story_details">%1$d comments - %2$s</string>

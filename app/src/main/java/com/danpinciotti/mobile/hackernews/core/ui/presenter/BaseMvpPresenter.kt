@@ -1,10 +1,13 @@
 package com.danpinciotti.mobile.hackernews.core.ui.presenter
 
 import com.danpinciotti.mobile.hackernews.core.ui.view.MvpView
+import com.danpinciotti.mobile.hackernews.di.qualifiers.IOScheduler
 import com.danpinciotti.mobile.hackernews.di.qualifiers.UIScheduler
 import io.reactivex.Flowable
 import io.reactivex.Scheduler
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.subscribers.ResourceSubscriber
 import timber.log.Timber
 import java.lang.ref.WeakReference
@@ -15,6 +18,7 @@ abstract class BaseMvpPresenter<M, V : MvpView<M>> :
     MvpPresenter<M, V> {
 
     @Inject @field:UIScheduler lateinit var uiScheduler: Scheduler
+    @Inject @field:IOScheduler lateinit var ioScheduler: Scheduler
 
     private var viewRef: WeakReference<V>? = null
     private var subscriptions: CompositeDisposable = CompositeDisposable()
@@ -39,7 +43,25 @@ abstract class BaseMvpPresenter<M, V : MvpView<M>> :
         }
 
         subscriptions.add(flowable.observeOn(uiScheduler)
+                              .subscribeOn(ioScheduler)
                               .subscribeWith(subscriber))
+    }
+
+    protected fun subscribe(single: Single<M>) {
+        val observer = object : DisposableSingleObserver<M>() {
+            override fun onSuccess(t: M) {
+                this@BaseMvpPresenter.onNext(t)
+                this@BaseMvpPresenter.onComplete()
+            }
+
+            override fun onError(e: Throwable) {
+                this@BaseMvpPresenter.onError(e)
+            }
+        }
+
+        subscriptions.add(single.observeOn(uiScheduler)
+                              .subscribeOn(ioScheduler)
+                              .subscribeWith(observer))
     }
 
     open fun onComplete() {}
